@@ -33,6 +33,17 @@
       <div class="card" onclick="book('{{slot.pk}}')">
         <div class="card-body">
           <h4>{{slot.display_name}}</h4>
+          {% if slot.bookings|length > 0 %}
+              Bookings
+              <ul>
+
+                {% for booking in slot.bookings %}
+                <li>
+                  {{booking.start_time}} ~ {{booking.end_time}}
+                </li>
+                {% endfor %}
+              </ul>
+          {% endif %}
         </div>
       </div>
     </div>
