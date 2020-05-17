@@ -6,7 +6,6 @@ from datetime import datetime
 from application import db
 from common.models import BaseDocument
 
-
 class User(BaseDocument):
     name = db.StringField(
         verbose_name=u'name',

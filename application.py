@@ -24,10 +24,12 @@ def create_app(config_filename):
 
     # import blueprints
     from accounts.views import accounts_app
+    from parkings.views import parkings_app
     from pages.views import pages_app
 
     # register blueprints
     app.register_blueprint(accounts_app)
+    app.register_blueprint(parkings_app)
     app.register_blueprint(pages_app)
 
     return app
