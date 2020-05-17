@@ -4,9 +4,10 @@ from flask import (
     current_app
 )
 from accounts.models import User
-from accounts.forms import (LoginForm, SignupForm)
+from parkings.models import Parking, ParkingSlot
 from common.utils import get_signer
-
+from parkings.forms import ParkingSearchForm
+from common.decorators import login_required, is_superuser, is_not_superuser
 
 parkings_app = Blueprint('parkings_app', __name__)
 
@@ -15,18 +16,24 @@ parkings_app = Blueprint('parkings_app', __name__)
 def load_user():
     g.user = None
     if 'user_id' in session:
-        print('TRYING')
         try:
-            g.user = User.objects.get(_id=session['user_id'])
-            print(g.user)
+            g.user = User.objects.get(pk=session['user_id'])
         except Exception as e:
-            print(e)
             pass
 
 
-@parkings_app.route('/login/', methods=['GET', 'POST'])
+@parkings_app.route('/parkings/search/', methods=['GET', 'POST'])
+@is_not_superuser
 def search():
-    parkings = Parking.objects.all()
-    return render_template('parking/search.html', {
-        'parkings': parkings
-    })
+    pipeline = [
+        {
+            '$lookup': {
+                'from': 'parkingslot',
+                'localField': '_id',
+                'foreignField': 'parking_id',
+                'as': 'parking_slots'
+            }
+        }
+    ]
+    parkings = Parking.objects.aggregate(pipeline)
+    return render_template('parking/search.html', parkings=parkings)
