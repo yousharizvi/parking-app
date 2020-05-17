@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Book{% endblock %}
+
+{% block content %}
+
+<div class="page-header my-2">
+  <h3>{{parking.display_name}}</h3>
+  <p>Address: {{parking.address}}</p>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <form action="" method="post" class="form-horizontal">
+      {{ form.hidden_tag() }}
+      {% import 'form_macro.html' as form_macro %}
+      {{ form_macro.form_field(form.parkingslot_id, with_label=False) }}
+      {{ form_macro.form_field(form.date, with_label=True) }}
+      {{ form_macro.form_field(form.start_time, with_label=True) }}
+      {{ form_macro.form_field(form.end_time, with_label=True) }}
+      <div class="form-actions">
+        <button type="submit" class="btn btn-icon btn-primary">Refresh</button>
+        <button id="book_btn" hidden class="btn btn-icon btn-primary">Book</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <div class="row">
+    {% for slot in parking_slots %}
+    <div class="col-4 text-center p-2 slot">
+      <div class="card" onclick="book('{{slot.pk}}')">
+        <div class="card-body">
+          <h4>{{slot.display_name}}</h4>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+  .slot:not(.booked) .card:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  .slot.booked .card {
+    background-color: #fff360;
+  }
+</style>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+  function book(parkingslot_id) {
+    $('#parkingslot_id').val(parkingslot_id);
+    $('#book_btn').click();
+  }
+</script>
+{% endblock %}

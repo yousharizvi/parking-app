@@ -31,6 +31,7 @@ class Parking(BaseDocument):
     def __unicode__(self):
         return self.display_name
 
+
 class ParkingSlot(BaseDocument):
     parking_id = db.ReferenceField('Parking', reverse_delete_rule=CASCADE)
     display_name = db.StringField(
@@ -38,7 +39,31 @@ class ParkingSlot(BaseDocument):
         max_length=100
     )
 
-    meta = {}
+    meta = {'collection': 'parkingslot'}
 
     def __unicode__(self):
         return self.display_name
+
+
+class Booking(BaseDocument):
+    user_id = db.ReferenceField('User', reverse_delete_rule=CASCADE)
+    parking_id = db.ReferenceField('Parking', reverse_delete_rule=CASCADE)
+    parkingslot_id = db.ReferenceField(
+        'ParkingSlot', reverse_delete_rule=CASCADE)
+    start_time = db.DateTimeField(
+        verbose_name=u'Start time',
+        required=True
+    )
+    end_time = db.DateTimeField(
+        verbose_name=u'End time',
+        required=True
+    )
+    is_cancelled = db.BooleanField(
+        verbose_name=u'Is Cancelled',
+        default=False
+    )
+
+    meta = {}
+
+    def __unicode__(self):
+        return self.start_time + ' ' + self.end_time

@@ -9,9 +9,9 @@ pages_app = Blueprint('pages_app', __name__)
 def index():
     if not g.user:
         return redirect(url_for('accounts_app.login'))
-    elif g.user and not g.user.is_superuser:
-        return redirect(url_for('parkings_app.search'))
-    return render_template('pages/index.html')
+    elif g.user and g.user.is_superuser:
+        return redirect(url_for('parkings_app.bookings'))
+    return redirect(url_for('parkings_app.search'))
 
 
 @pages_app.route('/access_denied/')
