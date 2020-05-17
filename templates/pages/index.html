@@ -5,7 +5,7 @@
 {% block content %}
 
   {% if g.user %}
-  <h3>Welcome {{ g.user.username }}!</h3>
+  <h3>Welcome {{ g.user.name }}</h3>
   {% else %}
   <h3>Welcome Stranger!</h3>
   {% endif%}
