@@ -20,3 +20,6 @@ pip-log.txt
 
 # Virtualenv
 env
+
+# VS Code
+.vscode
