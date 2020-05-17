@@ -52,7 +52,7 @@
             aria-haspopup="true" aria-expanded="false">
             {{ g.user.name }}
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" disabled href="#">Bookings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ url_for('accounts_app.logout') }}">Logout</a>

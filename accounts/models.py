@@ -20,13 +20,13 @@ class User(BaseDocument):
     )
 
     pw_hash = db.StringField(
-        verbose_name=u'senha',
+        verbose_name=u'Password Hash',
         max_length=100,
         required=True
     )
 
     is_superuser = db.BooleanField(
-        verbose_name=u'super usuário',
+        verbose_name=u'Is Superuser',
         default=False
     )
 

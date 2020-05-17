@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+
+<div class="page-header my-2">
+  <h3>Nearby parking lots</h3>
+</div>
+
+<div>
+  {% for parking in parkings %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <h4>
+        {{parking.display_name}}
+      </h4>
+      <p>
+        Address: {{parking.address}}
+      </p>
+      Total Slots: <span class="badge badge-primary">{{parking.parking_slots|length}}</span>
+      <div class="btn btn-primary float-right">
+        Book
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
