@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template
+from flask import (Blueprint, render_template, redirect, g, url_for)
 
 
 pages_app = Blueprint('pages_app', __name__)
@@ -7,6 +7,10 @@ pages_app = Blueprint('pages_app', __name__)
 
 @pages_app.route('/')
 def index():
+    if not g.user:
+        return redirect(url_for('accounts_app.login'))
+    elif g.user and not g.user.is_superuser:
+        return redirect(url_for('parkings_app.search'))
     return render_template('pages/index.html')
 
 
