@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookings{% endblock %}
+
+{% block content %}
+
+<div class="page-header my-2">
+    <h3>Feedback</h3>
+</div>
+
+{% if g.user.is_superuser %}
+<div>
+    {% for feedback in feedbacks %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h6>
+                User: {{feedback.user_id.name}} - {{feedback.user_id.email}}
+            </h6>
+            <h5>
+                Message: {{feedback.message}}
+            </h5>
+            <p>
+                Rating: {{feedback.rating}}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+
+<form action="" method="post" class="form-horizontal">
+    {{ form.hidden_tag() }}
+    {% import 'form_macro.html' as form_macro %}
+    {{ form_macro.form_field(form.rating, with_label=True) }}
+    {{ form_macro.form_field(form.message, with_label=True) }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-icon btn-primary">Submit Feedback</button>
+    </div>
+</form>
+
+{% endif %}
+{% endblock %}
