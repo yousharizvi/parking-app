@@ -13,7 +13,9 @@
   <div class="card mb-2">
     <div class="card-body">
       <h4>
-        {{parking.display_name}}
+        <a href="{{ url_for('parkings_app.book', parking_id=parking._id) }}">
+          {{parking.display_name}}
+        </a>
       </h4>
       <p>
         Address: {{parking.address}}

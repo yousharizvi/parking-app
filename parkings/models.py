@@ -2,7 +2,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app
 
-from datetime import datetime
 from application import db
 from common.models import BaseDocument
 from mongoengine import CASCADE

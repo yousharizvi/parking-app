@@ -39,6 +39,10 @@
         <li class="nav-item active">
           <a class="nav-link" href="{{ url_for('parkings_app.search') }}">Search</a>
         </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('feedbacks_app.feedback') }}">Feedback</a>
+        </li>
         {% endif %}
         <li class="nav-item active">
           <a class="nav-link" href="{{ url_for('parkings_app.bookings') }}">Bookings</a>

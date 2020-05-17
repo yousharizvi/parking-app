@@ -7,6 +7,7 @@ from accounts.models import User
 from parkings.models import Parking, ParkingSlot, Booking
 from common.utils import get_signer
 from parkings.forms import ParkingSearchForm
+from feedbacks.models import Feedback
 from common.decorators import login_required, is_superuser, is_not_superuser
 from datetime import datetime
 
@@ -20,7 +21,7 @@ def load_user():
     if 'user_id' in session:
         try:
             g.user = User.objects.get(pk=session['user_id'])
-        except Exception as e:
+        except Exception:
             pass
 
 
@@ -51,6 +52,9 @@ def book(parking_id):
             u'Successfully booked',
             'success'
         )
+        feedback_count = Feedback.objects(user_id=g.user.pk).count()
+        if not feedback_count:
+            return redirect(url_for('feedbacks_app.feedback'))
         return redirect(url_for('parkings_app.book', parking_id=parking_id))
 
     pipeline = [
