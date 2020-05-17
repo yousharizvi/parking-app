@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
-from flask import request
+from flask import (request, g, redirect, url_for)
 
 
 def get_page(f):
@@ -28,6 +28,14 @@ def is_superuser(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not g.user or not g.user.is_superuser:
+            return redirect(url_for('pages_app.access_denied', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def is_not_superuser(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not g.user or g.user.is_superuser:
             return redirect(url_for('pages_app.access_denied', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
