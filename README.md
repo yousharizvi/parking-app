@@ -18,3 +18,5 @@ Example Parking Application.
     cd parking-app
     pip install -r requirements.txt
     python run.py # run on 127.0.0.1:5000
+
+# Emails are currently not trigering
