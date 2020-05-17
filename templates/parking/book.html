@@ -9,40 +9,35 @@
   <p>Address: {{parking.address}}</p>
 </div>
 
-<div class="card">
-  <div class="card-body">
-    <form action="" method="post" class="form-horizontal">
-      {{ form.hidden_tag() }}
-      {% import 'form_macro.html' as form_macro %}
-      {{ form_macro.form_field(form.parkingslot_id, with_label=False) }}
-      {{ form_macro.form_field(form.date, with_label=True) }}
-      {{ form_macro.form_field(form.start_time, with_label=True) }}
-      {{ form_macro.form_field(form.end_time, with_label=True) }}
-      <div class="form-actions">
-        <button type="submit" class="btn btn-icon btn-primary">Refresh</button>
-        <button id="book_btn" hidden class="btn btn-icon btn-primary">Book</button>
-      </div>
-    </form>
+<form action="" method="post" class="form-horizontal">
+  {{ form.hidden_tag() }}
+  {% import 'form_macro.html' as form_macro %}
+  {{ form_macro.form_field(form.parkingslot_id, with_label=False) }}
+  {{ form_macro.form_field(form.date, with_label=True) }}
+  {{ form_macro.form_field(form.start_time, with_label=True) }}
+  {{ form_macro.form_field(form.end_time, with_label=True) }}
+  <div class="form-actions">
+    <button id="book_btn" hidden class="btn btn-icon btn-primary">Book</button>
   </div>
-</div>
+</form>
 
 <div>
   <div class="row">
     {% for slot in parking_slots %}
     <div class="col-4 text-center p-2 slot">
-      <div class="card" onclick="book('{{slot.pk}}')">
+      <div class="card" onclick="book('{{slot._id}}')">
         <div class="card-body">
           <h4>{{slot.display_name}}</h4>
           {% if slot.bookings|length > 0 %}
-              Bookings
-              <ul>
+          Bookings
+          <ul>
 
-                {% for booking in slot.bookings %}
-                <li>
-                  {{booking.start_time}} ~ {{booking.end_time}}
-                </li>
-                {% endfor %}
-              </ul>
+            {% for booking in slot.bookings %}
+            <li>
+              {{booking.start_time}} ~ {{booking.end_time}}
+            </li>
+            {% endfor %}
+          </ul>
           {% endif %}
         </div>
       </div>
@@ -58,6 +53,7 @@
     background-color: #007bff;
     color: #fff;
   }
+
   .slot.booked .card {
     background-color: #fff360;
   }
