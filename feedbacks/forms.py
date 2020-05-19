@@ -2,7 +2,7 @@
 from wtforms import *
 from flask_wtf import FlaskForm
 from flask_mail import Message
-from flask_wtf.html5 import NumberInput
+from wtforms.widgets.html5 import NumberInput
 from flask import g
 
 from application import mail
