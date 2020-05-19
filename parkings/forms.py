@@ -7,13 +7,25 @@ from parkings.models import Booking, ParkingSlot
 from datetime import datetime, timedelta
 
 
-class ParkingSearchForm(FlaskForm):
-    date = DateField(label=u'Select date', default=datetime.utcnow)
-    start_time = TimeField(label=u'Select start time',
-                           default=datetime.now() + timedelta(hours=1))
-    end_time = TimeField(label=u'Select end time',
-                         default=datetime.now() + timedelta(hours=2))
-    parkingslot_id = HiddenField("Parking slot")
+class ParkingBookForm(FlaskForm):
+    date = DateField(
+        label=u'Select date',
+        validators=[validators.DataRequired()],
+        default=datetime.utcnow
+    )
+    start_time = TimeField(
+        label=u'Select start time',
+        validators=[validators.DataRequired()],
+        default=datetime.now() + timedelta(hours=1)
+    )
+    end_time = TimeField(
+        label=u'Select end time',
+        validators=[validators.DataRequired()],
+        default=datetime.now() + timedelta(hours=2)
+    )
+    parkingslot_id = HiddenField(
+        label=u"Parking slot",
+        validators=[validators.DataRequired()])
 
     def save(self):
         parkingslot_id = self.parkingslot_id.data
@@ -24,7 +36,6 @@ class ParkingSearchForm(FlaskForm):
         end_time = datetime.strptime(
             f'{date} {self.end_time.data}', '%Y-%m-%d %H:%M:%S')
         user_id = g.user.pk
-
         booking = Booking(parking_id=parking_id, parkingslot_id=parkingslot_id,
                           start_time=start_time, end_time=end_time, user_id=user_id)
         booking.save()

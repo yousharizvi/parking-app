@@ -6,7 +6,7 @@ from flask import (
 from accounts.models import User
 from parkings.models import Parking, ParkingSlot, Booking
 from common.utils import get_signer
-from parkings.forms import ParkingSearchForm
+from parkings.forms import ParkingBookForm
 from feedbacks.models import Feedback
 from common.decorators import login_required, is_superuser, is_not_superuser
 from datetime import datetime
@@ -46,7 +46,7 @@ def search():
 @parkings_app.route('/parkings/book/<parking_id>', methods=['GET', 'POST'])
 @is_not_superuser
 def book(parking_id):
-    form = ParkingSearchForm()
+    form = ParkingBookForm()
     if form.validate_on_submit():
         form.save()
         flash(
@@ -56,7 +56,7 @@ def book(parking_id):
         feedback_count = Feedback.objects(user_id=g.user.pk).count()
         if not feedback_count:
             return redirect(url_for('feedbacks_app.feedback'))
-        return redirect(url_for('parkings_app.book', parking_id=parking_id))
+        return redirect(url_for('parkings_app.search', parking_id=parking_id))
 
     pipeline = [
         {
